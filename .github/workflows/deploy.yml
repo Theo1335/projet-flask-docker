@@ -29,8 +29,7 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
           script: |
-            docker pull ghcr.io/theo1335/flask-docker:latest
-            docker stop flask-app || true
-            docker rm flask-app || true
-            docker run -d --name flask-app --restart unless-stopped  -p 5000:5000 ghcr.io/theo1335/flask-docker:latest
+            cd ~/docker_app/flask-app
+            docker compose pull
+            docker compose up -d --remove-orphans
             docker image prune -f

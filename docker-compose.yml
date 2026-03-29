@@ -1,12 +1,19 @@
 services:
   web:
-    build: .
-    #ports: car reverse proxy
-    #  - "5001:5000"
+    image: ghcr.io/theo1335/flask-docker:latest
     environment:
       - DATABASE_URL=${DATABASE_URL}
     depends_on:
       - db
+    networks:
+      - proxy
+      - internal
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.flask.rule=Host(`flask.theo-massenya.fr`)"
+      - "traefik.http.routers.flask.entrypoints=websecure"
+      - "traefik.http.routers.flask.tls.certresolver=letsencrypt"
+      - "traefik.http.services.flask.loadbalancer.server.port=5000"
   db:
     image: postgres:16
     environment:
@@ -14,7 +21,15 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_DB=${POSTGRES_DB}
     volumes:
-      - postgres_data:/var/lib/postgresql
-    
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - internal
+      
 volumes:
   postgres_data:
+
+networks:
+  proxy:
+    external: true
+  internal:
+    driver: bridge
