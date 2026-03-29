@@ -8,7 +8,7 @@ services:
     networks:
       - proxy
       - internal
-  labels:
+    labels:
       - "traefik.enable=true"
       - "traefik.http.routers.flask-https.rule=Host(`flask.theo-massenya.fr`)"
       - "traefik.http.routers.flask-https.entrypoints=websecure"
