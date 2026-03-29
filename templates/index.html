@@ -9,17 +9,20 @@
 <body>
     <div class="container">
         <div class="pres">
-            <h1>Hello</h1>   
-            <form method="POST" action="/ajouter">
-                <input name="message" placeholder="Ton message">
-                <button type="submit">Envoyer</button>
-            </form>
+            <h1>Hello</h1>  
+            <div> 
+                <p>message</p>
+                <form method="POST" action="/ajouter">
+                    <input name="message" placeholder="Ton message">
+                    <button type="submit">Envoyer</button>
+                </form>
 
-            <ul>
-                {% for msg in messages %}
-                    <li>{{ msg[0] }}</li>
-                {% endfor %}
-            </ul>
+                <ul>
+                    {% for msg in messages %}
+                        <li>{{ msg[0] }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
 
     </div>
