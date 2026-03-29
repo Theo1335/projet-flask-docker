@@ -9,10 +9,12 @@ services:
       - proxy
       - internal
     labels:
+      - "traefik.docker.network=proxy"
       - "traefik.enable=true"
       - "traefik.http.routers.flask-https.rule=Host(`flask.theo-massenya.fr`)"
       - "traefik.http.routers.flask-https.entrypoints=websecure"
       - "traefik.http.routers.flask-https.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.flask-https.service=flask"
       - "traefik.http.services.flask.loadbalancer.server.port=5000"
       - "traefik.http.routers.flask-http.rule=Host(`flask.theo-massenya.fr`)"
       - "traefik.http.routers.flask-http.entrypoints=web"
