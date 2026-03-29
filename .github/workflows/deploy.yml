@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: recuperation de code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Connection à ghcr.io
         run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u theo1335 --password-stdin
