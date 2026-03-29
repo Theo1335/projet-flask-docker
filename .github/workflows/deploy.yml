@@ -11,12 +11,12 @@ jobs:
 
     steps:
       - name: recuperation de code
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
 
       - name: Connection à ghcr.io
-      - run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u theo1335 --password-stdin
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u theo1335 --password-stdin
       
       - name: Build et push de l'image
-      - run: |
+        run: |
           docker build -t ghcr.io/theo1335/flask-docker:latest .
           docker push ghcr.io/theo1335/flask-docker:latest
