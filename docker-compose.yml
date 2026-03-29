@@ -8,12 +8,15 @@ services:
     networks:
       - proxy
       - internal
-    labels:
+  labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.flask.rule=Host(`flask.theo-massenya.fr`)"
-      - "traefik.http.routers.flask.entrypoints=websecure"
-      - "traefik.http.routers.flask.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.flask-https.rule=Host(`flask.theo-massenya.fr`)"
+      - "traefik.http.routers.flask-https.entrypoints=websecure"
+      - "traefik.http.routers.flask-https.tls.certresolver=letsencrypt"
       - "traefik.http.services.flask.loadbalancer.server.port=5000"
+      - "traefik.http.routers.flask-http.rule=Host(`flask.theo-massenya.fr`)"
+      - "traefik.http.routers.flask-http.entrypoints=web"
+      - "traefik.http.routers.flask-http.middlewares=redirect-to-https@file"
   db:
     image: postgres:16
     environment:
