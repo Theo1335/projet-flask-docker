@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  buil-and-push:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,3 +20,17 @@ jobs:
         run: |
           docker build -t ghcr.io/theo1335/flask-docker:latest .
           docker push ghcr.io/theo1335/flask-docker:latest
+      
+      - name: Deploiment sur VPS
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT }}
+          script: |
+            docker pull ghcr.io/theo1335/flask-docker:latest
+            docker stop flask-app || true
+            docker rm flask-app || true
+            docker run -d --name flask-app --restart unless-stopped  -p 5000:5000 ghcr.io/theo1335/flask-docker:latest
+            docker image prune -f
