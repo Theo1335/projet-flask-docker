@@ -6,7 +6,7 @@ from flask import Flask, render_template, request, redirect
 app = Flask(__name__)
 
 connection_pool = psycopg2.pool.SimpleConnectionPool(
-    1, 10,
+    1, 3,   
     dsn=os.environ.get("DATABASE_URL")
 )
 
